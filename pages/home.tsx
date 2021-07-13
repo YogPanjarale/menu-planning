@@ -41,6 +41,8 @@ export default function Home() {
 				r.fatce = mapToValue(r.fatce, amount);
 				r.choavldf = mapToValue(r.choavldf, amount);
 				r.fibtg = mapToValue(r.fibtg, amount);
+				r.ca= mapToValue(r.ca, amount);
+				r.folsum= mapToValue(r.folsum, amount);
 				// console.log(r)
 				return r;
 			})
@@ -137,6 +139,16 @@ export default function Home() {
 							name="Iron"
 							value={(r.fapu * 10).toFixed(2)}
 							unit="mg"
+						/>
+						<ItemProperty
+							name="Calcium"
+							value={(r.ca * 1000).toFixed(2)}
+							unit="mg"
+						/>
+						<ItemProperty
+							name="Folic Acid"
+							value={(r.folsum * 1000000).toFixed(2)}
+							unit="ug"
 						/>
 					</div>
 				</div>
