@@ -16,17 +16,17 @@ function MyApp({ Component, pageProps }) {
 
         <link rel="manifest" href="/manifest.json" />
         <link
-          href="/icon-192x192.png"
+          href="/images/icons/icon-192x192.png"
           rel="icon"
           type="image/png"
           sizes="192x192"
         />
-        {/* <link
-          href="/icon-192x192.png"
+        <link
+          href="/images/icons/icon-72x72.png"
           rel="icon"
           type="image/png"
-          sizes="32x32"
-        /> */}
+          sizes="72x72"
+        />
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <meta name="theme-color" content="#317EFB" />
       </Head>
