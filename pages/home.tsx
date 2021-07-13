@@ -20,7 +20,7 @@ export default function Home() {
 		const response = await fetch("/api/composition?term=" + searchTerm);
 		const text= await response.text();
 		const json = JSON.parse(text,(key,value)=>{
-			console.log(value)
+			// console.log(value)
 			if (typeof value === "number"){
 				return value
 			}
@@ -96,6 +96,9 @@ export default function Home() {
 					</div>
 				</div>
 			))}
+			   <div className=" text-center mt-auto">
+          <p className="text-gray-800">  Made by <a href="https://github.com/YogPanjarale" className="text-gray-900">@Yog Panjarale</a></p>
+        </div>
 		</div>
 	);
 }
