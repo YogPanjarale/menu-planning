@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { mapToValue, toKclCalories } from "../utils/converter";
 import { IItem } from "../utils/types";
-import JSONb from 'json-bigint'
+import LJSON from 'lossless-json'
 function ItemProperty(props:{name:string,value:string|number,unit:string}): JSX.Element {
 	return (
 		<p className="text-sm p-1">
@@ -19,7 +19,13 @@ export default function Home() {
 	const fetchResults = async (searchTerm: string) => {
 		const response = await fetch("/api/composition?term=" + searchTerm);
 		const text= await response.text();
-		const json = JSON.parse(text);
+		const json = JSON.parse(text,(key,value)=>{
+			console.log(value)
+			if (typeof value === "number"){
+				return value
+			}
+			return value;
+		});
 		setResults(json.map(r => {
 			//vitamin b12,
 			r.vitc= mapToValue(r.vitc,amount);
@@ -30,7 +36,7 @@ export default function Home() {
             r.fatce=mapToValue(r.fatce,amount);
             r.choavldf=mapToValue(r.choavldf,amount);
             r.fibtg = mapToValue(r.fibtg, amount);
-            console.log(r)
+            // console.log(r)
             return r
         }) );
        
@@ -45,7 +51,6 @@ export default function Home() {
     };
 	return (
 		<div className="p-2">
-            <div>
 			<input
             placeholder="Search for food items ..."
 				type="text"
@@ -53,39 +58,40 @@ export default function Home() {
 				onChange={(e) => {
 					onSearchTermChange(e.target.value);
 				}}
-				className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-4/12 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
+				className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-4/5 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none  "
                 id="search text"
 			/>
+            <div>
 			<input
-            placeholder="amount in gma"
+            placeholder="amount in gram"
 				type="number"
 				value={amount}
 				onChange={(e) => {
 					onAmountChange(parseInt(e.target.value));
 				}}
-				className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-4/12 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
-                id="search text"
+				className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-20 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none"
+                id="amount"
 			/>
 			<button
-			className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-16 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
+			className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-20 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
 			onClick={() => {fetchResults(searchTerm)}}
-			>Search</button>
+			>Calculate</button>
             </div>
 			{/* <h1>Home</h1> */}
 			{results.map((r,i) => (
-				<div className="border-2 bg-gray-50 border-gray-200 p-2 m-2 flex flex-row" key={i}>
+				<div className="border-2 bg-gray-50 border-gray-200 p-2 m-2 flex flex-col" key={i}>
 					<div>
 						<p className="text-lg">{r.name}</p>
 						<p className="text-xs">{r.grup}</p>
 					</div>
 					<div className="flex w-full flex-wrap mt-4 mb-8 content-center">
 						<ItemProperty name='Calories' value={toKclCalories( r.enerc)} unit="Kcal"/>
-                        <ItemProperty name="Protien" value={r.protcnt} unit="g"/>
-                        <ItemProperty name="Total Fat" value={r.fatce} unit="g"/>
-                        <ItemProperty name='Carbohydrate' value={r.choavldf}unit='g'/>
-						<ItemProperty name='Dietary Fiber' value={r.fibtg} unit='g'/>
-						<ItemProperty name='Vitamin A' value={(r.vita*1000000)} unit='ug'/>
-						<ItemProperty name='Vitamin C' value={(r.vitc*1000)} unit='mg'/>
+                        <ItemProperty name="Protien" value={(r.protcnt).toFixed(2)} unit="g"/>
+                        <ItemProperty name="Total Fat" value={r.fatce.toFixed(2)} unit="g"/>
+                        <ItemProperty name='Carbohydrate' value={r.choavldf.toFixed(2)}unit='g'/>
+						<ItemProperty name='Dietary Fiber' value={r.fibtg.toFixed(2)} unit='g'/>
+						<ItemProperty name='Vitamin A' value={Math.round(r.vita*1000000)} unit='ug'/>
+						<ItemProperty name='Vitamin C' value={(r.vitc*1000).toFixed(2)} unit='mg'/>
 						<ItemProperty name='Iron' value={(r.fapu*10).toFixed(2)} unit='mg'/>
 					</div>
 				</div>

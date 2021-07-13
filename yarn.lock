@@ -1388,6 +1388,11 @@ loose-envify@^1.1.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
+lossless-json@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/lossless-json/-/lossless-json-1.0.4.tgz#4165c5662e630e7f7ff1ee19ae812d15daf6da9e"
+  integrity sha512-zEkWwELMSQQISdtOF44vk0bRJhN/PJ93qcgJLcodizQjxrJKdFrq2H1+Xv5QDe7v3dTYYbBI5hOsh4a9l0B2Ow==
+
 lunr@2.3:
   version "2.3.9"
   resolved "https://registry.yarnpkg.com/lunr/-/lunr-2.3.9.tgz#18b123142832337dd6e964df1a5a7707b25d35e1"

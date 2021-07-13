@@ -6,10 +6,11 @@ export function toKclCalories(kalJoules: number): number {
 }
 
 export function mapToValue(amount: number,weight:number ){
+  // console.log(weight)
     if (typeof amount !== 'number'){
         return null
     }
-    const r=parseFloat((weight*(amount/100)).toFixed(2));
+    const r=((weight*(amount/100)));
     if (r==NaN){
       return 0
     }
