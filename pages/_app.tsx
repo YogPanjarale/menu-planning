@@ -10,9 +10,9 @@ function MyApp({ Component, pageProps }) {
           name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
         />
-        <meta name="description" content="Menu planner app to calculate values for generating " />
-        <meta name="keywords" content="Menu Planner Diet Calculator" />
-        <title>Menu Planner App</title>
+        <meta name="description" content="Nutritive Value Calculator for finding nutrional values of food items" />
+        <meta name="keywords" content="Nutritive Value Calculatorr" />
+        <title>Nutritive Value Calculator</title>
 
         <link rel="manifest" href="/manifest.json" />
         <link

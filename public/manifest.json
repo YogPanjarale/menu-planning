@@ -1,6 +1,11 @@
 {
-  "name": "Menu Planner",
-  "short_name": "Menu Planner",
+  "name": "Nutritive Value Calculator",
+  "short_name": "Nutritive Calculator",
+  "description":"Nutritive Value Calculator for finding nutrional values of food items",
+  "developer":{
+    "name": "Yog Panjarale",
+    "url":"https://github.com/YogPanjarale"
+  },
   "theme_color": "#fff",
   "background_color": "#fff",
   "display": "standalone",
