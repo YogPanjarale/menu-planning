@@ -43,6 +43,8 @@ export default function Home() {
 				r.fibtg = mapToValue(r.fibtg, amount);
 				r.ca= mapToValue(r.ca, amount);
 				r.folsum= mapToValue(r.folsum, amount);
+				r.na = mapToValue(r.na, amount)
+				r.k=mapToValue(r.k, amount);
 				// console.log(r)
 				return r;
 			})
@@ -149,6 +151,16 @@ export default function Home() {
 							name="Folic Acid"
 							value={(r.folsum * 1000000).toFixed(2)}
 							unit="ug"
+						/>
+						<ItemProperty
+							name="Soduim"
+							value={(r.na * 1000).toFixed(2)}
+							unit="mg"
+						/>
+						<ItemProperty
+							name="Potassium"
+							value={(r.k * 1000).toFixed(0)}
+							unit="mg"
 						/>
 					</div>
 				</div>
