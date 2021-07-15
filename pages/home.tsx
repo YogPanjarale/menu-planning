@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { mapToValue } from "../utils/converter";
-import { IItem } from "../utils/types";
+import { mapAmount, mapToValue } from "../utils/converter";
+import { IItem, ListItem } from "../utils/types";
 import Head from "next/head";
 import { getSearchData } from "../utils/search";
 import { ItemComponent } from "../components/ItemComponent";
+import { EmptyItem } from "../utils/emptyItem";
 export function ItemProperty(props: {
 	name: string;
 	value: string | number;
@@ -21,9 +22,10 @@ export default function Home() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [amount, setAmount] = useState(100);
 	const [results, setResults] = useState<IItem[]>([]);
-	const [lastSearched, setLastSearched] = useState(Date.now());
-	const [mode, setMode] = useState<"search"|"list">("search")
-	//do a fetch reques to /compositon
+	const [mode, setMode] = useState<"search" | "list">("search");
+const [total, setTotal] = useState<ListItem>({amount:0, item:EmptyItem,itemName:""})
+	const [list, setList] = useState<ListItem[]>([]);
+	// const
 	const fetchResults = async (searchTerm: string) => {
 		// const json = await getSearchData(searchTerm);
 		const response = await fetch("/api/composition?term=" + searchTerm);
@@ -37,40 +39,26 @@ export default function Home() {
 		});
 		setResults(
 			json.map((r) => {
-				//vitamin b12,
-				r.vitc = mapToValue(r.vitc, amount);
-				r.fapu = mapToValue(r.fapu, amount);
-				r.vita = mapToValue(r.vita, amount);
-				r.enerc = mapToValue(r.enerc, amount);
-				r.protcnt = mapToValue(r.protcnt, amount);
-				r.fatce = mapToValue(r.fatce, amount);
-				r.choavldf = mapToValue(r.choavldf, amount);
-				r.fibtg = mapToValue(r.fibtg, amount);
-				r.ca = mapToValue(r.ca, amount);
-				r.folsum = mapToValue(r.folsum, amount);
-				r.na = mapToValue(r.na, amount);
-				r.k = mapToValue(r.k, amount);
-				// console.log(r)
-				return r;
+				return mapAmount(r, amount);
 			})
 		);
 	};
 	//when the search term changes, do a fetch of the results
 	const onSearchTermChange = (searchTerm: string) => {
 		setSearchTerm(searchTerm);
-		// setTimeout(() => {
-		// 	const diff=(Date.now()-lastSearched)
-		// 	console.log(diff)
-		// 	if(diff>1000) {
-		// 		fetchResults(searchTerm);
-		// 		setLastSearched(Date.now())
-		// 	}
-		// 	// fetchResults(searchTerm);
-		// }, 1000);
 		fetchResults(searchTerm);
 	};
 	const onAmountChange = (amount: number) => {
 		setAmount(amount);
+	};
+	const addItem = (item: IItem, amount: number) => {
+		const has = list.some(
+			(i) => i.itemName === item.name && i.amount === amount
+		);
+		if (!has) {
+			list.push({ item, amount, itemName: item.name });
+			setList(list);
+		}
 	};
 	return (
 		<div className="p-2">
@@ -102,18 +90,47 @@ export default function Home() {
 					id="amount"
 				/>
 				<button
-					className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-20 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
+					className=" w-20 m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400  py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
 					onClick={() => {
 						fetchResults(searchTerm);
 					}}
 				>
 					Calculate
 				</button>
+				<button
+					className=" m-2 px-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400  py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
+					onClick={() => {
+						setMode(mode == "search" ? "list" : "search");
+					}}
+				>
+					Mode: {mode}
+				</button>
 			</div>
-			{/* <h1>Home</h1> */}
-			{results.map((r, i) => (
-				<ItemComponent key={i} r={r}/>
-			))}
+
+			{mode == "search"
+				? results.map((r, i) => {
+						return (
+							<ItemComponent
+								key={i}
+								r={r}
+								onAdd={() => {
+									addItem(r, amount);
+									console.log("hello world");
+								}}
+							/>
+						);
+				  })
+				: Array.from(list).map((r, i) => {
+						return (
+							<ItemComponent
+								key={i}
+								r={r.item}
+								onAdd={() => {
+									// console.log('hello world')
+								}}
+							/>
+						);
+				  })}
 			<div className=" text-center mt-auto">
 				<p className="text-gray-800">
 					{" "}

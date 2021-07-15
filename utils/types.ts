@@ -1,3 +1,8 @@
+export type ListItem= {
+  item:IItem;
+  amount:number;
+  itemName:string;
+}
 export interface IItem {
     code: string
     name: string
