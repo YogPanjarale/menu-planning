@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { mapToValue, toKclCalories } from "../utils/converter";
+import { mapToValue } from "../utils/converter";
 import { IItem } from "../utils/types";
 import Head from "next/head";
 import { getSearchData } from "../utils/search";
-function ItemProperty(props: {
+import { ItemComponent } from "../components/ItemComponent";
+export function ItemProperty(props: {
 	name: string;
 	value: string | number;
 	unit: string;
@@ -20,7 +21,8 @@ export default function Home() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [amount, setAmount] = useState(100);
 	const [results, setResults] = useState<IItem[]>([]);
-	const [lastSearched, setLastSearched] = useState(Date.now())
+	const [lastSearched, setLastSearched] = useState(Date.now());
+	const [mode, setMode] = useState<"search"|"list">("search")
 	//do a fetch reques to /compositon
 	const fetchResults = async (searchTerm: string) => {
 		// const json = await getSearchData(searchTerm);
@@ -44,10 +46,10 @@ export default function Home() {
 				r.fatce = mapToValue(r.fatce, amount);
 				r.choavldf = mapToValue(r.choavldf, amount);
 				r.fibtg = mapToValue(r.fibtg, amount);
-				r.ca= mapToValue(r.ca, amount);
-				r.folsum= mapToValue(r.folsum, amount);
-				r.na = mapToValue(r.na, amount)
-				r.k=mapToValue(r.k, amount);
+				r.ca = mapToValue(r.ca, amount);
+				r.folsum = mapToValue(r.folsum, amount);
+				r.na = mapToValue(r.na, amount);
+				r.k = mapToValue(r.k, amount);
 				// console.log(r)
 				return r;
 			})
@@ -72,7 +74,9 @@ export default function Home() {
 	};
 	return (
 		<div className="p-2">
-			<h1 className="text-2xl font-bold text-gray-600 text-center my-1">Nutritive Value Calculator</h1>
+			<h1 className="text-2xl font-bold text-gray-600 text-center my-1">
+				Nutritive Value Calculator
+			</h1>
 			<input
 				placeholder="Search for food items ..."
 				type="text"
@@ -83,7 +87,9 @@ export default function Home() {
 				className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-4/5 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none  "
 				id="search text"
 			/>
-			<p className="text-xs ml-2 text-gray-600">Weight of item in grams</p>
+			<p className="text-xs ml-2 text-gray-600">
+				Weight of item in grams
+			</p>
 			<div className="flex flex-row">
 				<input
 					placeholder="amount in gram"
@@ -106,77 +112,7 @@ export default function Home() {
 			</div>
 			{/* <h1>Home</h1> */}
 			{results.map((r, i) => (
-				<div
-					className="border-2 bg-gray-50 border-gray-200 p-2 m-2 flex flex-col"
-					key={i}
-				>
-					<div>
-						<p className="text-lg">{r.name}</p>
-						<p className="text-xs">{r.grup}</p>
-					</div>
-					<div className="flex w-full flex-wrap mt-4 mb-8 content-center">
-						<ItemProperty
-							name="Calories"
-							value={toKclCalories(r.enerc)}
-							unit="Kcal"
-						/>
-						<ItemProperty
-							name="Protien"
-							value={r.protcnt.toFixed(2)}
-							unit="g"
-						/>
-						<ItemProperty
-							name="Total Fat"
-							value={r.fatce.toFixed(2)}
-							unit="g"
-						/>
-						<ItemProperty
-							name="Carbohydrate"
-							value={r.choavldf.toFixed(2)}
-							unit="g"
-						/>
-						<ItemProperty
-							name="Dietary Fiber"
-							value={r.fibtg.toFixed(2)}
-							unit="g"
-						/>
-						<ItemProperty
-							name="Vitamin A"
-							value={Math.round(r.vita * 1000000)}
-							unit="ug"
-						/>
-						<ItemProperty
-							name="Vitamin C"
-							value={(r.vitc * 1000).toFixed(2)}
-							unit="mg"
-						/>
-						<ItemProperty
-							name="Iron"
-							value={(r.fapu * 10).toFixed(2)}
-							unit="mg"
-						/>
-						<ItemProperty
-							name="Calcium"
-							value={(r.ca * 1000).toFixed(2)}
-							unit="mg"
-						/>
-						<ItemProperty
-							name="Folic Acid"
-							value={(r.folsum * 1000000).toFixed(2)}
-							unit="ug"
-						/>
-						<ItemProperty
-							name="Soduim"
-							value={(r.na * 1000).toFixed(2)}
-							unit="mg"
-						/>
-						<ItemProperty
-							name="Potassium"
-							value={(r.k * 1000).toFixed(0)}
-							unit="mg"
-						/>
-					</div>
-				</div>
+				<ItemComponent key={i} r={r}/>
 			))}
 			<div className=" text-center mt-auto">
 				<p className="text-gray-800">
