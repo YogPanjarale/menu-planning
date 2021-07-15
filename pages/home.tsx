@@ -23,7 +23,11 @@ export default function Home() {
 	const [amount, setAmount] = useState(100);
 	const [results, setResults] = useState<IItem[]>([]);
 	const [mode, setMode] = useState<"search" | "list">("search");
-const [total, setTotal] = useState<ListItem>({amount:0, item:EmptyItem,itemName:""})
+	const [total, setTotal] = useState<ListItem>({
+		amount: 0,
+		item: EmptyItem,
+		itemName: "",
+	});
 	const [list, setList] = useState<ListItem[]>([]);
 	// const
 	const fetchResults = async (searchTerm: string) => {
@@ -60,39 +64,81 @@ const [total, setTotal] = useState<ListItem>({amount:0, item:EmptyItem,itemName:
 			setList(list);
 		}
 	};
+	const calculateTotal = () => {
+		//calculate total of all the items in list
+		// const total = total;
+		let totalT: ListItem = {
+			amount: 0,
+			item: {...EmptyItem},
+			itemName: "",
+		};
+		console.log(totalT.item);
+		setTotal(totalT)
+		list.forEach(({ item, amount }) => {
+			totalT.item.vitc += item.vitc;
+			totalT.item.fapu += item.fapu;
+			totalT.item.vita += item.vita;
+			totalT.item.enerc += item.enerc;
+			totalT.item.protcnt += item.protcnt;
+			totalT.item.fatce += item.fatce;
+			totalT.item.choavldf += item.choavldf;
+			totalT.item.fibtg += item.fibtg;
+			totalT.item.ca += item.ca;
+			totalT.item.folsum += item.folsum;
+			totalT.item.na += item.na;
+			totalT.item.k += item.k;
+			totalT.amount += amount;
+		});
+		console.log(totalT.item);
+		setTotal({
+			item: { ...totalT.item },
+			amount: totalT.amount,
+			itemName: totalT.itemName,
+		});
+		console.log(totalT.item.enerc);
+	};
+
 	return (
 		<div className="p-2">
 			<h1 className="text-2xl font-bold text-gray-600 text-center my-1">
 				Nutritive Value Calculator
 			</h1>
-			<input
-				placeholder="Search for food items ..."
-				type="text"
-				value={searchTerm}
-				onChange={(e) => {
-					onSearchTermChange(e.target.value);
-				}}
-				className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-4/5 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none  "
-				id="search text"
-			/>
-			<p className="text-xs ml-2 text-gray-600">
-				Weight of item in grams
-			</p>
-			<div className="flex flex-row">
+			{mode == "search" ? (
 				<input
-					placeholder="amount in gram"
-					type="number"
-					value={amount}
+					placeholder="Search for food items ..."
+					type="text"
+					value={searchTerm}
 					onChange={(e) => {
-						onAmountChange(parseInt(e.target.value));
+						onSearchTermChange(e.target.value);
 					}}
-					className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-20 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none"
-					id="amount"
+					className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-4/5 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none  "
+					id="search text"
 				/>
+			) : null}
+			{mode == "search" ? (
+				<p className="text-xs ml-2 text-gray-600">
+					Weight of item in grams
+				</p>
+			) : null}
+			<div className="flex flex-row">
+				{mode == "search" ? (
+					<input
+						placeholder="amount in gram"
+						type="number"
+						value={amount}
+						onChange={(e) => {
+							onAmountChange(parseInt(e.target.value));
+						}}
+						className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-20 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none"
+						id="amount"
+					/>
+				) : null}
 				<button
 					className=" w-20 m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400  py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
 					onClick={() => {
-						fetchResults(searchTerm);
+						mode == "search"
+							? fetchResults(searchTerm)
+							: calculateTotal();
 					}}
 				>
 					Calculate
@@ -101,26 +147,35 @@ const [total, setTotal] = useState<ListItem>({amount:0, item:EmptyItem,itemName:
 					className=" m-2 px-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400  py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
 					onClick={() => {
 						setMode(mode == "search" ? "list" : "search");
+						mode == "search"
+							? fetchResults(searchTerm)
+							: calculateTotal();
 					}}
 				>
 					Mode: {mode}
 				</button>
 			</div>
 
-			{mode == "search"
-				? results.map((r, i) => {
-						return (
-							<ItemComponent
-								key={i}
-								r={r}
-								onAdd={() => {
-									addItem(r, amount);
-									console.log("hello world");
-								}}
-							/>
-						);
-				  })
-				: Array.from(list).map((r, i) => {
+			{mode == "search" ? (
+				results.map((r, i) => {
+					return (
+						<ItemComponent
+							key={i}
+							r={r}
+							onAdd={() => {
+								addItem(r, amount);
+								console.log("hello world");
+							}}
+						/>
+					);
+				})
+			) : (
+				<>
+					<ItemComponent
+						r={{ ...total.item,name:"Total" }}
+						amount={total.amount}
+					/>
+					{list.map((r, i) => {
 						return (
 							<ItemComponent
 								key={i}
@@ -128,9 +183,12 @@ const [total, setTotal] = useState<ListItem>({amount:0, item:EmptyItem,itemName:
 								onAdd={() => {
 									// console.log('hello world')
 								}}
+								amount={r.amount}
 							/>
 						);
-				  })}
+					})}
+				</>
+			)}
 			<div className=" text-center mt-auto">
 				<p className="text-gray-800">
 					{" "}

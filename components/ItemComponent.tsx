@@ -10,6 +10,8 @@ export function ItemComponent(props:{r:IItem, onAdd?:()=>void,amount?:number}): 
 					<p className="text-lg">{props.r.name}</p>
 					<p className="text-xs">{props.r.grup}</p>
 				</div>
+					{props.amount?<p className="text-xs">{props.amount} g</p>:null}
+
 				{props.onAdd?
 				<button className='m-2 px-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400  py-1 text-left text-black-400 bg-transparent rounded-md focus:outline-none' onClick={props.onAdd}>
 				Add
