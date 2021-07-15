@@ -23,15 +23,16 @@ export default function Home() {
 	const [lastSearched, setLastSearched] = useState(Date.now())
 	//do a fetch reques to /compositon
 	const fetchResults = async (searchTerm: string) => {
-		const json = await getSearchData(searchTerm);
-		// const text = await response.text();
-		// const json = JSON.parse(text, (key, value) => {
-		// 	// console.log(value)
-		// 	if (typeof value === "number") {
-		// 		return value;
-		// 	}
-		// 	return value;
-		// });
+		// const json = await getSearchData(searchTerm);
+		const response = await fetch("/api/composition?term=" + searchTerm);
+		const text = await response.text();
+		const json = JSON.parse(text, (key, value) => {
+			console.log(value)
+			if (typeof value === "number") {
+				return value;
+			}
+			return value;
+		});
 		setResults(
 			json.map((r) => {
 				//vitamin b12,
