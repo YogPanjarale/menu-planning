@@ -27,7 +27,7 @@ export default function Home() {
 		const response = await fetch("/api/composition?term=" + searchTerm);
 		const text = await response.text();
 		const json = JSON.parse(text, (key, value) => {
-			console.log(value)
+			// console.log(value)
 			if (typeof value === "number") {
 				return value;
 			}
@@ -56,15 +56,16 @@ export default function Home() {
 	//when the search term changes, do a fetch of the results
 	const onSearchTermChange = (searchTerm: string) => {
 		setSearchTerm(searchTerm);
-		setTimeout(() => {
-			const diff=(Date.now()-lastSearched)
-			console.log(diff)
-			if(diff>1000) {
-				fetchResults(searchTerm);
-				setLastSearched(Date.now())
-			}
-			// fetchResults(searchTerm);
-		}, 1000);
+		// setTimeout(() => {
+		// 	const diff=(Date.now()-lastSearched)
+		// 	console.log(diff)
+		// 	if(diff>1000) {
+		// 		fetchResults(searchTerm);
+		// 		setLastSearched(Date.now())
+		// 	}
+		// 	// fetchResults(searchTerm);
+		// }, 1000);
+		fetchResults(searchTerm);
 	};
 	const onAmountChange = (amount: number) => {
 		setAmount(amount);
