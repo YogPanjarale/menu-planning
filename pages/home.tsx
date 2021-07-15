@@ -63,7 +63,14 @@ export default function Home() {
 			list.push({ item, amount, itemName: item.name });
 			setList(list);
 		}
+		calculateTotal();
 	};
+	const removeItem = (item: IItem, amount: number) => {
+		setList(list.filter(
+			(i) => i.itemName !== item.name && i.amount !== amount
+		));
+		calculateTotal();
+	}
 	const calculateTotal = () => {
 		//calculate total of all the items in list
 		// const total = total;
@@ -127,7 +134,9 @@ export default function Home() {
 						type="number"
 						value={amount}
 						onChange={(e) => {
-							onAmountChange(parseInt(e.target.value));
+							if (e.target.value) {
+								onAmountChange(parseInt(e.target.value));
+							}
 						}}
 						className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-20 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none"
 						id="amount"
@@ -146,10 +155,10 @@ export default function Home() {
 				<button
 					className=" m-2 px-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400  py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none "
 					onClick={() => {
-						setMode(mode == "search" ? "list" : "search");
-						mode == "search"
+						mode !== "search"
 							? fetchResults(searchTerm)
 							: calculateTotal();
+						setMode(mode == "search" ? "list" : "search");
 					}}
 				>
 					Mode: {mode}
@@ -162,10 +171,10 @@ export default function Home() {
 						<ItemComponent
 							key={i}
 							r={r}
-							onAdd={() => {
+						onClick={() => {
 								addItem(r, amount);
-								console.log("hello world");
 							}}
+							action='Add'
 						/>
 					);
 				})
@@ -180,9 +189,10 @@ export default function Home() {
 							<ItemComponent
 								key={i}
 								r={r.item}
-								onAdd={() => {
-									// console.log('hello world')
+								onClick={() => {
+									removeItem(r.item,r.amount)
 								}}
+								action='Remove'
 								amount={r.amount}
 							/>
 						);

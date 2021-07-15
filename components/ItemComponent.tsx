@@ -2,9 +2,9 @@ import { toKclCalories } from "../utils/converter";
 import { ItemProperty } from "../pages/home";
 import { IItem } from "../utils/types";
 
-export function ItemComponent(props:{r:IItem, onAdd?:()=>void,amount?:number}): JSX.Element {
+export function ItemComponent(props:{r:IItem, onClick?:()=>void,amount?:number,action?:string}): JSX.Element {
 	return (
-		<div className="border-2 bg-gray-50 border-gray-200 p-2 m-2 flex flex-col">
+		<div className="border-2 bg-gray-50 border-gray-200 p-2 m-2 flex flex-col rounded-lg">
 			<div className="flex flex-row">
 				<div>
 					<p className="text-lg">{props.r.name}</p>
@@ -12,13 +12,13 @@ export function ItemComponent(props:{r:IItem, onAdd?:()=>void,amount?:number}): 
 				</div>
 					{props.amount?<p className="text-xs">{props.amount} g</p>:null}
 
-				{props.onAdd?
-				<button className='m-2 px-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400  py-1 text-left text-black-400 bg-transparent rounded-md focus:outline-none' onClick={props.onAdd}>
-				Add
+				{props.onClick?
+				<button className='m-2 px-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400  py-1 text-left text-black-400 bg-transparent rounded-md focus:outline-none' onClick={props.onClick}>
+				{props.action}
 				</button>:null
 				}
 			</div>
-			<div className="flex w-full flex-wrap mt-4 mb-8 content-center">
+			<div className="flex w-full flex-wrap mt-4 mb-2 content-center">
 				<ItemProperty
 					name="Calories"
 					value={toKclCalories(props.r.enerc)}
