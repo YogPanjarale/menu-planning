@@ -72,7 +72,7 @@ export default function Home() {
 	};
 	return (
 		<div className="p-2">
-			<h1 className="text-lg">Nutritive Value Calculator</h1>
+			<h1 className="text-2xl font-bold text-gray-600 text-center my-1">Nutritive Value Calculator</h1>
 			<input
 				placeholder="Search for food items ..."
 				type="text"
