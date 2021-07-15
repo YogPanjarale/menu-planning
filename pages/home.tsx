@@ -72,6 +72,7 @@ export default function Home() {
 	};
 	return (
 		<div className="p-2">
+			<h1 className="text-lg">Nutritive Value Calculator</h1>
 			<input
 				placeholder="Search for food items ..."
 				type="text"
@@ -82,7 +83,7 @@ export default function Home() {
 				className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-4/5 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none  "
 				id="search text"
 			/>
-			<p className="text-xs ml-2 text-gray-400">Weight of item in grams</p>
+			<p className="text-xs ml-2 text-gray-600">Weight of item in grams</p>
 			<div className="flex flex-row">
 				<input
 					placeholder="amount in gram"
