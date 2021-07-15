@@ -20,6 +20,7 @@ export default function Home() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [amount, setAmount] = useState(100);
 	const [results, setResults] = useState<IItem[]>([]);
+	const [lastSearched, setLastSearched] = useState(Date.now())
 	//do a fetch reques to /compositon
 	const fetchResults = async (searchTerm: string) => {
 		const json = await getSearchData(searchTerm);
@@ -54,7 +55,15 @@ export default function Home() {
 	//when the search term changes, do a fetch of the results
 	const onSearchTermChange = (searchTerm: string) => {
 		setSearchTerm(searchTerm);
-		fetchResults(searchTerm);
+		setTimeout(() => {
+			const diff=(Date.now()-lastSearched)
+			console.log(diff)
+			if(diff>1000) {
+				fetchResults(searchTerm);
+				setLastSearched(Date.now())
+			}
+			// fetchResults(searchTerm);
+		}, 1000);
 	};
 	const onAmountChange = (amount: number) => {
 		setAmount(amount);

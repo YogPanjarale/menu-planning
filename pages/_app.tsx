@@ -12,8 +12,22 @@ function MyApp({ Component, pageProps }) {
         />
         <meta name="description" content="Nutritive Value Calculator for finding nutrional values of food items" />
         <meta name="keywords" content="Nutritive Value Calculatorr" />
+        {/* Primary Meta Tags */}
         <title>Nutritive Value Calculator</title>
-
+        <meta name="title" content="Nutritive Value Calculator" />
+        <meta name="description" content="Nutritive Value Calculator for finding nutrional values of food items" />
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://menu-planning.vercel.app/home" />
+        <meta property="og:title" content="Nutritive Value Calculator" />
+        <meta property="og:description" content="Nutritive Value Calculator for finding nutrional values of food items" />
+        <meta property="og:image" content = 'https://menu-planning.vercel.app/screenshot.png' />
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://menu-planning.vercel.app/home" />
+        <meta property="twitter:title" content="Nutritive Value Calculator" />
+        <meta property="twitter:description" content="Nutritive Value Calculator for finding nutrional values of food items" />
+        <meta property="twitter:image" content='https://menu-planning.vercel.app/screenshot.png' />
         <link rel="manifest" href="/manifest.json" />
         <link
           href="/images/icons/icon-192x192.png"
