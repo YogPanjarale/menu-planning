@@ -1,0 +1,5 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target" : { "namespace": "android_app", "package_name": "com.gmail.yogpanjarale.menuplanning",
+                 "sha256_cert_fingerprints": ["5D:FB:4C:62:33:F5:DB:13:CB:BE:8E:AC:AC:BF:CE:E0:66:16:C1:96:3F:2B:FC:96:DB:4D:96:E6:F3:C9:49:01"] }
+  }]
