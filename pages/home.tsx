@@ -137,6 +137,9 @@ export default function Home() {
 							if (e.target.value) {
 								onAmountChange(parseInt(e.target.value));
 							}
+							else {
+								onAmountChange(0);
+							}
 						}}
 						className="m-2 pl-1 border-2 transition duration-500 placeholder-black-400 focus:placeholder-transparent border-black-400 w-20 py-2 text-left text-black-400 bg-transparent rounded-md focus:outline-none"
 						id="amount"
