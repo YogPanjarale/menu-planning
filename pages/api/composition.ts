@@ -9,6 +9,9 @@ export default function compositionAPI(
 	res: NextApiResponse
 ) {
     const term:string = req.query.term as string ??"";
+	if (term.length<=1){
+		return res.status(200).json([])
+	}
     // console.log(req.query)
 	res.status(200).json(compositions(term));
 }
